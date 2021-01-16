@@ -2,7 +2,8 @@
   <div class="container">
      <h2 v-if="winner">Winner : {{ winner }} </h2>
      <h2 v-else>Player Move : {{ player }} </h2>
-     <button @click="reset" class="btn btn-success mb-3">Reset</button>
+     <button @click="reset" class="btn btn-success mb-3">Reset</button>&nbsp;
+     <button @click="clear" class="btn btn-danger mb-3">Clear</button>
 
      <div v-for="(_,x)  in 3" :key="x" class="row">
          <button v-for="(_,y) in 3" :key="y" class="square" @click="move(x,y)">
@@ -65,6 +66,11 @@ export default {
             ]
         }
 
+        const clear = () => {
+            localStorage.clear()
+            history.value = null
+        }
+
         const history = ref([])
         watch(winner, (current,previous) => {
             if(current && !previous) {
@@ -77,7 +83,7 @@ export default {
             history.value = JSON.parse(localStorage.getItem('history')) ?? []
         })
 
-        return { winner, player, squares, move, reset , history  }
+        return { winner, player, squares, move, reset, clear, history  }
     }
 }
 </script>
